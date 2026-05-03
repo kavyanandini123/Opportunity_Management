@@ -1,3 +1,4 @@
+const BASE_URL = "https://opportunity-management.onrender.com";
 const captchas = { login: "", signup: "", forgot: "" };
 function generateCaptcha(type) {
   const chars = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789";
@@ -417,7 +418,7 @@ document
       .filter(Boolean);
 
     try {
-      const response = await fetch("http://127.0.0.1:5000/opportunities", {
+      const response = await fetch(`${BASE_URL}/opportunities`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -795,7 +796,7 @@ document
 
     // NEW: Backend API call
     try {
-      const response = await fetch("http://127.0.0.1:5000/login", {
+      const response = await fetch(`${BASE_URL}/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -833,7 +834,7 @@ document
       .value.trim();
 
     try {
-      const response = await fetch("http://127.0.0.1:5000/signup", {
+      const response = await fetch(`${BASE_URL}/signup`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -910,7 +911,7 @@ window.addEventListener("resize", () => {
 //load opportinities
 async function loadOpportunities() {
   try {
-    const response = await fetch("http://127.0.0.1:5000/opportunities");
+    const response = await fetch(`${BASE_URL}/opportunities/`);
     const data = await response.json();
 
     const grid = document.querySelector(".opportunities-grid");
@@ -930,7 +931,7 @@ async function deleteOpportunity(id) {
   if (!confirm("Are you sure?")) return;
 
   try {
-    const response = await fetch(`http://127.0.0.1:5000/opportunities/${id}`, {
+    const response = await fetch(`${BASE_URL}/opportunities/${id}`, {
       method: "DELETE",
     });
 
@@ -946,7 +947,7 @@ async function deleteOpportunity(id) {
 //edit oppotinities
 async function editOpportunity(id) {
   try {
-    const response = await fetch(`http://127.0.0.1:5000/opportunities`);
+    const response = await fetch(`${BASE_URL}/opportunities/`);
     const data = await response.json();
 
     const op = data.find((o) => o.id === id);
@@ -983,7 +984,7 @@ async function editOpportunity(id) {
         max_applicants: document.getElementById("oppMaxApplicants").value,
       };
 
-      const res = await fetch(`http://127.0.0.1:5000/opportunities/${id}`, {
+      const res = await fetch(`${BASE_URL}/opportunities/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

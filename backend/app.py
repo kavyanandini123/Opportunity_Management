@@ -11,7 +11,7 @@ app.config.from_object(Config)
 db.init_app(app)
 
 # Enable CORS
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
 
 # Login manager
 login_manager = LoginManager()

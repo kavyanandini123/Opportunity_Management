@@ -1,4 +1,4 @@
-const BASE_URL = "https://opportunity-management-2.onrender.com";
+const BASE_URL = window.location.origin;
 const captchas = { login: "", signup: "", forgot: "" };
 function generateCaptcha(type) {
   const chars = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789";
@@ -383,7 +383,6 @@ document
   .addEventListener("submit", async function (e) {
     e.preventDefault();
 
-    // collect values
     const name = document.getElementById("oppName").value.trim();
     const duration = document.getElementById("oppDuration").value.trim();
     const startDate = document.getElementById("oppStartDate").value;
@@ -397,7 +396,6 @@ document
       .getElementById("oppMaxApplicants")
       .value.trim();
 
-    // basic validation
     if (
       !name ||
       !duration ||
@@ -410,12 +408,6 @@ document
       showToast("Please fill all required fields");
       return;
     }
-
-    // parse skills
-    const skills = skillsRaw
-      .split(",")
-      .map((s) => s.trim())
-      .filter(Boolean);
 
     try {
       const response = await fetch(`${BASE_URL}/opportunities`, {
@@ -441,28 +433,15 @@ document
         showToast(data.error || "Failed to save");
         return;
       }
+
+      loadOpportunities();
+      showToast("Opportunity created successfully!");
+      closeOpportunityModal();
+      this.reset();
     } catch (error) {
       console.error(error);
       showToast("Server error");
-      return;
     }
-
-    // create opportunity card element
-
-    // skills tags
-    if (!response.ok) {
-      showToast(data.error || "Failed to save");
-      return;
-    }
-    loadOpportunities();
-
-    // footer
-
-    // append to grid
-
-    showToast("Opportunity created successfully!");
-    closeOpportunityModal();
-    this.reset();
   });
 
 // small helper to avoid HTML injection when inserting text
@@ -872,7 +851,7 @@ window.addEventListener("resize", () => {
 //load opportinities
 async function loadOpportunities() {
   try {
-    const response = await fetch(`${BASE_URL}/opportunities/`);
+    const response = await fetch(`${BASE_URL}/opportunities`);
     const data = await response.json();
 
     const grid = document.querySelector(".opportunities-grid");
@@ -908,7 +887,7 @@ async function deleteOpportunity(id) {
 //edit oppotinities
 async function editOpportunity(id) {
   try {
-    const response = await fetch(`${BASE_URL}/opportunities/`);
+    const response = await fetch(`${BASE_URL}/opportunities`);
     const data = await response.json();
 
     const op = data.find((o) => o.id === id);

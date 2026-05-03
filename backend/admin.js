@@ -1,4 +1,4 @@
-const BASE_URL = "https://opportunity-management-2.onrender.com";
+const BASE_URL = "https://opportunity-management.onrender.com";
 const captchas = { login: "", signup: "", forgot: "" };
 function generateCaptcha(type) {
   const chars = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789";
